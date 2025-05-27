@@ -1,12 +1,17 @@
 // src/pages/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase/client';
+// import Header from '../components/Header'; // <--- ELIMINAR O COMENTAR ESTA LÍNEA
+import ProfileCard from '../components/ProfileCard'; // Importa el componente de la tarjeta
+import { FaTimes, FaRedo, FaStar, FaHeart, FaBolt } from 'react-icons/fa'; // Iconos para los botones
+import './Dashboard.css'; // Estilos para la página Dashboard y los botones
+
 
 const Dashboard = () => {
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null); // Estado para el usuario actual
 
   useEffect(() => {
     fetchCurrentUserAndProfiles();
@@ -17,7 +22,14 @@ const Dashboard = () => {
       setLoading(true);
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) throw userError;
-      setCurrentUser(user);
+      setCurrentUser(user); // Asegúrate de que currentUser se establezca aquí
+
+      console.log("Usuario autenticado (currentUser):", user);
+      if (!user || !user.id) {
+        console.error("ID de usuario no disponible. Redirigiendo a autenticación o esperando...");
+        setLoading(false);
+        return;
+      }
 
       // Obtener IDs de perfiles con los que ya se interactuó
       const { data: interactionsData, error: interactionsError } = await supabase
@@ -40,7 +52,7 @@ const Dashboard = () => {
       setProfiles(profilesData || []);
 
     } catch (error) {
-      alert('Error cargando perfiles: ' + error.message);
+      alert('Error cargando perfiles o usuario: ' + error.message);
       console.error(error);
     } finally {
       setLoading(false);
@@ -49,15 +61,26 @@ const Dashboard = () => {
 
   const handleInteraction = async (type) => {
     if (!profiles.length || currentIndex >= profiles.length) return;
+    if (!currentUser || !currentUser.id) {
+      alert("No se pudo registrar la interacción: el ID de tu usuario no está disponible.");
+      console.error("handleInteraction: currentUser o currentUser.id es nulo/indefinido.");
+      return;
+    }
 
     const targetProfile = profiles[currentIndex];
+
+    console.log("Intentando interacción:", {
+      swiper_id: currentUser.id,
+      swiped_id: targetProfile.id,
+      tipo_interaccion: type
+    });
 
     try {
       // 1. Registrar la interacción
       const { error: interactionError } = await supabase
         .from('interacciones')
         .insert({
-          swiper_id: currentUser.id,
+          swiper_id: currentUser.id, // Asegúrate de que esto sea el ID del usuario de la sesión
           swiped_id: targetProfile.id,
           tipo_interaccion: type,
         });
@@ -104,42 +127,59 @@ const Dashboard = () => {
   };
 
   if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando perfiles...</div>;
+    return (
+      <div className="dashboard-container">
+        {/* <Header />  <--- ELIMINAR O COMENTAR ESTA LÍNEA */}
+        <div className="loading-message">Cargando perfiles...</div>
+      </div>
+    );
   }
 
   if (!profiles.length || currentIndex >= profiles.length) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>No hay más perfiles por ahora. ¡Vuelve más tarde!</div>;
+    return (
+      <div className="dashboard-container">
+        {/* <Header />  <--- ELIMINAR O COMENTAR ESTA LÍNEA */}
+        <div className="no-users-message">No hay más perfiles por ahora. ¡Vuelve más tarde!</div>
+      </div>
+    );
   }
 
   const currentProfile = profiles[currentIndex];
   const age = currentProfile.fecha_nacimiento ? new Date().getFullYear() - new Date(currentProfile.fecha_nacimiento).getFullYear() : 'N/A';
   const profileImageUrl = currentProfile.multimedia && currentProfile.multimedia.length > 0
                            ? currentProfile.multimedia[0].url
-                           : 'https://via.placeholder.com/200?text=No+Photo'; // Imagen de placeholder
+                           : 'https://via.placeholder.com/400x500?text=No+Photo'; // Imagen de placeholder
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-      <h2>{currentProfile.nombre}, {age}</h2>
-      <img
-        src={profileImageUrl}
-        alt={currentProfile.nombre}
-        style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '8px', marginBottom: '15px' }}
-      />
-      <p>{currentProfile.biografia || 'Sin biografía.'}</p>
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
-        <button
-          onClick={() => handleInteraction('dislike')}
-          style={{ padding: '12px 25px', fontSize: '18px', borderRadius: '50%', border: 'none', backgroundColor: '#ff4d4d', color: 'white', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
-        >
-          👎
-        </button>
-        <button
-          onClick={() => handleInteraction('like')}
-          style={{ padding: '12px 25px', fontSize: '18px', borderRadius: '50%', border: 'none', backgroundColor: '#00cc66', color: 'white', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
-        >
-          ❤️
-        </button>
-      </div>
+    <div className="dashboard-container">
+      {/* <Header />  <--- ELIMINAR O COMENTAR ESTA LÍNEA */}
+      <main className="dashboard-content">
+        <div className="card-wrapper">
+          <ProfileCard user={{
+            name: currentProfile.nombre,
+            age: age,
+            bio: currentProfile.biografia,
+            photos: [profileImageUrl] // ProfileCard espera un array de fotos
+          }} />
+        </div>
+        <div className="action-buttons">
+          <button className="icon-button dislike" onClick={() => handleInteraction('dislike')}>
+            <FaTimes />
+          </button>
+          <button className="icon-button rewind" onClick={() => console.log('Rewind no implementado.')}>
+            <FaRedo />
+          </button>
+          <button className="icon-button superlike" onClick={() => handleInteraction('super_like')}>
+            <FaStar />
+          </button>
+          <button className="icon-button like" onClick={() => handleInteraction('like')}>
+            <FaHeart />
+          </button>
+          <button className="icon-button boost" onClick={() => console.log('Boost no implementado.')}>
+            <FaBolt />
+          </button>
+        </div>
+      </main>
     </div>
   );
 };

@@ -1,13 +1,50 @@
+/* src/index.css */
+
+/* Variables CSS para los colores de Tinder */
+:root {
+  --tinder-red-start: #fe3072; /* Rosa/Rojo de Tinder */
+  --tinder-red-end: #ff5e62;   /* Naranja/Rojo de Tinder */
+  --tinder-gradient: linear-gradient(to right, var(--tinder-red-start), var(--tinder-red-end));
+  --tinder-white: #ffffff;
+  --tinder-light-gray: #f0f0f0;
+  --tinder-medium-gray: #cccccc;
+  --tinder-dark-gray: #666666;
+  --tinder-text-color: #333333;
+  --tinder-green-like: #4caf50;    /* Verde para "Like" */
+  --tinder-blue-superlike: #00bfff; /* Azul para "Super Like" */
+  --tinder-yellow-rewind: #ffc107;  /* Amarillo para "Rewind" */
+  --tinder-purple-boost: #9c27b0;   /* Morado para "Boost" */
+  --tinder-dislike: #f44336;       /* Rojo para "Dislike" */
+}
+
+/* Estilos globales para el cuerpo y la fuente */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif; /* Fuentes limpias sans-serif */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--tinder-light-gray); /* Fondo general gris claro */
+  color: var(--tinder-text-color);
+  display: flex; /* Añadir display flex para que ocupe el 100vh correctamente */
+  flex-direction: column; /* Contenido en columna */
+  min-height: 100vh; /* Para que la aplicación ocupe toda la altura de la pantalla */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Reseteo básico para elementos de formulario */
+input, button, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Estilos para enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
 }

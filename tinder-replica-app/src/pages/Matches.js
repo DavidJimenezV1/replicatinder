@@ -1,6 +1,8 @@
 // src/pages/Matches.js
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase/client';
+// import Header from '../components/Header'; // <--- ELIMINAR O COMENTAR ESTA LÍNEA
+import './Matches.css'; // Importa los estilos para la página de Matches
 
 const Matches = () => {
   const [matches, setMatches] = useState([]);
@@ -18,7 +20,6 @@ const Matches = () => {
       if (userError) throw userError;
       setCurrentUser(user);
 
-      // Obtener los matches donde el usuario actual es user1 o user2
       const { data, error } = await supabase
         .from('matches') // Tu tabla 'matches'
         .select(`
@@ -28,20 +29,19 @@ const Matches = () => {
           user1:user1_id (nombre, multimedia(url)),
           user2:user2_id (nombre, multimedia(url))
         `)
-        .or(`user1_id.eq.<span class="math-inline">\{user\.id\},user2\_id\.eq\.</span>{user.id}`);
+        .or(`user1_id.eq.<span class="math-inline">\{user\.id\},user2\_id\.eq\.</span>{user.id}`); // Corregir escapes si es necesario aquí
 
       if (error) throw error;
 
-      // Procesar los matches para mostrar el perfil del "otro" usuario
       const processedMatches = data.map(match => {
         const otherUser = match.user1_id === user.id ? match.user2 : match.user1;
         const otherUserId = match.user1_id === user.id ? match.user2_id : match.user1_id;
-        const otherProfileImageUrl = otherUser.multimedia && otherUser.multimedia.length > 0
+        const otherProfileImageUrl = otherUser.multimedia && Array.isArray(otherUser.multimedia) && otherUser.multimedia.length > 0
                                     ? otherUser.multimedia[0].url
                                     : 'https://via.placeholder.com/100?text=No+Photo';
 
         return {
-          id: match.id, // ID del match
+          id: match.id,
           matched_at: match.matched_at,
           otherUserName: otherUser.nombre,
           otherUserId: otherUserId,
@@ -60,33 +60,32 @@ const Matches = () => {
   }
 
   if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando tus matches...</div>;
-  }
-
-  if (!matches.length) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Aún no tienes matches. ¡Sigue deslizando!</div>;
+    return (
+      <div className="matches-container">
+        {/* <Header /> <--- ELIMINAR O COMENTAR ESTA LÍNEA */}
+        <div className="loading-message">Cargando tus matches...</div>
+      </div>
+    );
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-      <h2>Mis Matches</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '20px', marginTop: '20px' }}>
-        {matches.map((match) => (
-          <div key={match.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <img
-              src={match.otherProfileImageUrl}
-              alt={match.otherUserName}
-              style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', marginBottom: '10px' }}
-            />
-            <h3>{match.otherUserName}</h3>
-            <p>Match desde: {new Date(match.matched_at).toLocaleDateString()}</p>
-            {/* Aquí podrías añadir un botón para iniciar un chat */}
-            <button style={{ padding: '8px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-              Chatear
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="matches-container">
+      {/* <Header /> <--- ELIMINAR O COMENTAR ESTA LÍNEA */}
+      <main className="matches-content">
+        <h1>Tus Matches</h1>
+        <div className="matches-grid">
+          {matches.length > 0 ? (
+            matches.map(match => (
+              <div key={match.otherUserId} className="match-card">
+                <img src={match.otherProfileImageUrl} alt={match.otherUserName} className="match-avatar" />
+                <span className="match-name">{match.otherUserName}</span>
+              </div>
+            ))
+          ) : (
+            <p className="no-matches-message">Aún no tienes matches. ¡Sigue deslizando!</p>
+          )}
+        </div>
+      </main>
     </div>
   );
 };

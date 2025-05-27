@@ -1,0 +1,124 @@
+/* src/pages/ProfileSetup.css */
+
+.profile-setup-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  background-color: var(--tinder-light-gray);
+  /* padding-top ya lo gestiona .App, no es necesario aquí si este es un componente de página */
+}
+
+.profile-setup-content {
+  width: 100%;
+  max-width: 500px; /* Ancho máximo para el formulario */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.profile-setup-content h1 {
+  font-size: 2rem;
+  color: var(--tinder-text-color);
+  text-align: center;
+  margin-bottom: 30px;
+  background: var(--tinder-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-form {
+  background-color: var(--tinder-white);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--tinder-text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+  width: calc(100% - 20px); /* Ajusta por padding */
+  padding: 12px 10px;
+  border: 1px solid var(--tinder-medium-gray);
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Incluye padding en el width */
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus {
+  border-color: var(--tinder-red-end);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 94, 98, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.photo-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--tinder-medium-gray);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px 20px;
+  background: var(--tinder-gradient); /* Degradado de Tinder */
+  color: var(--tinder-white);
+  border: none;
+  border-radius: 30px; /* Botón más redondeado */
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 94, 98, 0.6);
+}
+
+.submit-button:disabled {
+  background: var(--tinder-medium-gray);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.error-message {
+  color: #d32f2f; /* Rojo de error */
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.success-message {
+  color: #388e3c; /* Verde de éxito */
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}

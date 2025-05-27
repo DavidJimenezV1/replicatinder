@@ -1,0 +1,106 @@
+/* src/components/Auth.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  background: var(--tinder-gradient); /* Fondo con el degradado de Tinder */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  background-color: var(--tinder-white);
+  padding: 40px;
+  border-radius: 20px; /* Bordes más redondeados */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-title {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  background: var(--tinder-gradient); /* Degradado en el título */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre los grupos de formulario */
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--tinder-text-color);
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--tinder-medium-gray);
+  border-radius: 8px; /* Bordes redondeados para inputs */
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.auth-input:focus {
+  border-color: var(--tinder-red-end);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 94, 98, 0.2);
+}
+
+.auth-button {
+  width: 100%;
+  padding: 15px 20px;
+  background: var(--tinder-gradient); /* Degradado de Tinder para el botón */
+  color: var(--tinder-white);
+  border: none;
+  border-radius: 30px; /* Botón muy redondeado */
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 8px 20px rgba(255, 94, 98, 0.4); /* Sombra para el botón */
+}
+
+.auth-button:hover {
+  transform: translateY(-3px); /* Efecto de levitación */
+  box-shadow: 0 12px 25px rgba(255, 94, 98, 0.6);
+}
+
+.auth-button:disabled {
+  background: var(--tinder-medium-gray);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.auth-toggle {
+  margin-top: 30px;
+}
+
+.auth-toggle .toggle-button {
+  background: none;
+  border: none;
+  color: var(--tinder-red-start); /* Color de enlace */
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+}
+
+.auth-toggle .toggle-button:hover {
+  color: var(--tinder-red-end);
+}

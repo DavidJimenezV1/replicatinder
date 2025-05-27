@@ -1,38 +1,76 @@
+/* src/App.css */
+
+/* Estilos para el contenedor principal de la App */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  padding-top: 70px; /* Espacio para el header fijo. Ajusta si tu header es más alto */
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho/alto */
+}
+
+/* Estilos para el Header (barra superior) */
+.header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 15px 20px;
+  background-color: var(--tinder-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Fijo en la parte superior */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Para que ocupen espacio */
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.header-center {
+  flex: 2; /* Para que el centro tenga más espacio */
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.header-icon {
+  font-size: 1.8rem; /* Tamaño del icono */
+  color: var(--tinder-medium-gray); /* Color gris de los iconos */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header-icon:hover {
+  color: var(--tinder-red-start); /* Cambia de color al pasar el mouse */
+}
+
+.header-logout-button {
+  padding: 8px 15px;
+  background-color: var(--tinder-dislike); /* Color rojo de descarte de Tinder */
+  color: var(--tinder-white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 15px; /* Espacio entre el icono y el botón */
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.header-logout-button:hover {
+  background-color: #e03232; /* Tono más oscuro al pasar el mouse */
 }

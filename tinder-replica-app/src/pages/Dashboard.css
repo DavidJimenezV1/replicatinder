@@ -1,0 +1,109 @@
+/* src/pages/Dashboard.css */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  background-color: var(--tinder-light-gray);
+}
+
+.dashboard-content {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra las tarjetas y botones verticalmente */
+  align-items: center;
+  padding: 80px 20px 20px; /* Espacio para el header fijo y el footer */
+  width: 100%;
+  max-width: 400px; /* Ancho máximo para la interfaz tipo Tinder */
+  box-sizing: border-box;
+}
+
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px; /* Espacio entre la tarjeta y los botones */
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  justify-content: space-around; /* Distribuye los botones equitativamente */
+  align-items: center;
+  width: 100%;
+  max-width: 380px; /* Ancho máximo para los botones */
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.icon-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: var(--tinder-white); /* Color de los iconos por defecto */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Colores específicos para cada botón */
+.icon-button.dislike {
+  background-color: var(--tinder-dislike);
+  font-size: 1.8rem; /* Un poco más grande */
+}
+
+.icon-button.rewind {
+  background-color: var(--tinder-yellow-rewind);
+  font-size: 1.3rem;
+}
+
+.icon-button.superlike {
+  background-color: var(--tinder-blue-superlike);
+  font-size: 1.6rem;
+}
+
+.icon-button.like {
+  background-color: var(--tinder-green-like);
+  font-size: 1.8rem; /* Un poco más grande */
+}
+
+.icon-button.boost {
+  background-color: var(--tinder-purple-boost);
+  font-size: 1.3rem;
+}
+
+/* Efecto hover/active */
+.icon-button:hover {
+  transform: scale(1.1); /* Efecto de zoom */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.icon-button:active {
+  transform: scale(0.95); /* Efecto de click */
+}
+
+/* Mensaje cuando no hay usuarios */
+.no-users-message {
+  font-size: 1.2rem;
+  color: var(--tinder-dark-gray);
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* Mensaje de carga */
+.loading-message {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.2rem;
+    color: var(--tinder-dark-gray);
+}
